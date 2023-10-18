@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Torneos{% endblock %}
+
+{% block content %}
+<section class="antialiased bg-gray pt-20 text-black h-auto px-4 w-full max-w-screen-xl mx-auto">
+    <div class="flex flex-col h-full">
+        <div class="bg-white rounded-t-lg border-4 border-indigo-600">
+            <header class="p-5 border-b border-gray-100">
+                <h1 class="font-semibold text-black text-5xl">Lista de Torneos</h1>
+            </header>
+            <div class="flex justify-between items-center my-4">
+                <!-- Barra de búsqueda -->
+                <form method="get" action="{% url 'search_tournament' %}" class="box p-3 h-auto flex-grow">
+                    <div class="box-wrapper h-full">
+                        <div class="bg-indigo-600 rounded flex items-center w-full p-3 shadow-sm border border-gray-200 text-black h-full">
+                            <input type="search" name="query" id="" placeholder="Buscar torneo por nombre o ID" class="w-full pl-4 text-sm outline-none focus:outline-none bg-transparent">
+                            <button type="submit" class="ml-2 outline-none focus:outline-none">
+                                <svg class="w-10 h-10 pr-2 text-white cursor-pointer" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                            <input type="submit" value="Buscar" class="ml-2 bg-white text-black rounded px-4 py-2 cursor-pointer">
+                        </div>
+                    </div>
+                </form>
+                <!-- Paginación -->
+                <div class="pagination flex items-center h-full p-3 bg-indigo-600 rounded justify-end">
+                    <div class="flex items-center h-full">
+                        {% if current_page > 1 %}
+                            <a href="?page={{ current_page|add:"-1" }}" class="px-4 py-2 bg-white text-black rounded hover:bg-cyan h-full">
+                                Anterior
+                            </a>
+                        {% endif %}
+                
+                        <form method="get" action="" class="flex items-center h-full w-auto">
+                            <span class="px-2 text-white h-full flex items-center">Saltar a página:</span>
+                            <input type="search" name="page" min="1" max="500" value="{{ current_page }}" class="px-4 py-1 bg-white text-black rounded hover:bg-cyan h-full w-20">
+                
+                            <button type="submit" class="ml-2 outline-none focus:outline-none">
+                                <svg class="w-10 h-10 pr-2 text-white  cursor-pointer" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </button>
+                        </form>
+                
+                        {% if not messages %}
+                            <a href="?page={{ current_page|add:"1" }}" class="px-4 py-2 bg-white text-black rounded hover:bg-cyan h-full">
+                                Siguiente
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Contenido de la tabla -->
+            <div class="p-3">
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full">
+                        <thead class="font-semibold uppercase text-black bg-indigo-600">
+                            <tr>
+                                <th class="p-2 whitespace-nowrap">Logo</th>
+                                <th class="p-2 whitespace-nowrap">ID</th>
+                                <th class="p-2 whitespace-nowrap">Nombre</th>
+                                <th class="p-2 whitespace-nowrap">Videojuego</th>
+                                <th class="p-2 whitespace-nowrap">Fecha de inicio</th>
+                                <th class="p-2 whitespace-nowrap">Fecha de finalización</th>
+                                <th class="p-2 whitespace-nowrap">Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100">
+                            {% for tournament in tournaments %}
+                                <tr>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <img src="{{tournament.league.image_url}}" style="width:100px; height:100px;" alt="{{tournament.name}}">
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">{{ tournament.id }}</td>
+                                    <td class="p-2 whitespace-nowrap">{{ tournament.name }}</td>
+                                    <td class="p-2 whitespace-nowrap">{{ tournament.videogame.name }}</td>
+                                    <td class="p-2 whitespace-nowrap">{{ tournament.begin_at_date }} {{ tournament.begin_at_time }}</td>
+                                    <td class="p-2 whitespace-nowrap">{{ tournament.end_at_date }} {{ tournament.end_at_time }}</td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <a href="{% url 'get_tournament' tournament.id %}">Ver detalles</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

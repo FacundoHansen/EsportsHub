@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <title>{% block title %}EsportsHub{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+        <link rel="icon"class="fill-white" type="image/jpg" href="{% static 'logo_white.png' %}"/>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans&family=Roboto+Mono:wght@600&family=Roboto:wght@300;700&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Anton', sans-serif;
+            }
+
+            .roboto {
+                font-family: 'Roboto', sans-serif;
+            }
+            .roboto-mono {
+                font-family: 'Roboto Mono', monospace;
+            }
+
+            .bebas{
+                font-family: 'Bebas Neue', sans-serif;
+            }
+            .opensans{
+                font-family: 'Open Sans', sans-serif;
+            }
+        </style>        
+    </head>
+
+    <body class="bg-black flex flex-col min-h-screen">
+
+        <nav alt="Barra de navegacion" class="w-full flex items-center justify-between flex-wrap p-6 bg-white ">        
+                <div alt="Logo y Marca" class="flex items-center flex-shrink-0  text-4xl">                
+                    <img src="{% static 'logo_black.png' %}" class="fill-current mr-3 h-12"  alt="Logo" />                
+                    <span class="block lg:inline-block lg:mt-0 hover:text-indigo-600 mr-4 mx-2 font-bold text-4xl tracking-tight hover:text-indigo-600">
+                        <a href="{% url 'index' %}">ESPORTSHUB</a>
+                    </span>                
+                </div>
+                <div alt="Botones" class="flex items-center mr-6 text-black ">
+                    <div class="text-sm ">
+                        <button onclick="location.href='{% url 'index' %}'" class=" block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">
+                            Inicio
+                        </button>
+                        <button onclick="location.href='{% url 'list_teams' %}'" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">
+                            Equipos
+                        </button>
+                        <button onclick="location.href='{% url 'list_matches_today' %}'" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">
+                            Partidos de Hoy
+                        </button>
+                        <button onclick="location.href='{% url 'list_matches_now' %}'" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">
+                            Partidos En Vivo
+                        </button>
+                        <button onclick="location.href='{% url 'list_tournaments' %}'" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">
+                            Torneos
+                        </button>                    
+                        {% if user.is_authenticated %}
+                            <button onclick="location.href='{% url 'profile' %}'" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">Perfil @{{ user.username }}</button>
+                            <button onclick="location.href='{% url 'logout' %}'" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">Cerrar Sesión</button>
+                        {% else %}
+                            <button onclick="location.href='{% url 'login' %}'" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">Iniciar Sesión</button>
+                        {% endif %}
+                        <button onclick="goBack()" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-indigo-600 mr-4 mx-2">Volver</button>    
+                    </div>
+                </div>                                                        
+        </nav>
+
+        <div class="text-white flex-grow ">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <footer class="bg-white dark:bg-black-900">
+            <div class="container px-6 py-8 mx-auto">
+                <div class="flex flex-col items-center text-center">
+                    <div alt="Logo y Marca" class="flex items-center flex-shrink-0 text-4xl">
+                        <img src="{% static 'logo_black.png' %}" class="fill-current mr-3 h-12" alt="Logo" />
+                        <span class="block lg:inline-block lg:mt-0 mr-4 mx-2 font-bold text-4xl tracking-tight hover:text-indigo-600">
+                            ESPORTSHUB
+                        </span>
+                    </div>
+                    <p class="font-roboto font-semibold max-w-md mx-auto mt-4 text-indigo-600">Tu lugar para informarte sobre la escena.</p>
+                    <div class="flex flex-col mt-4 sm:flex-row sm:items-center sm:justify-center">
+                        <button onclick="location.href='{% url 'list_matches_now' %}'" class="flex items-center justify-center order-1 w-full px-2 py-2 mt-3 text-sm tracking-wide text-indigo-600 capitalize transition-colors duration-300 transform border rounded-md sm:mx-2 border-indigo-600 dark:text-gray-300 sm:mt-0 sm:w-auto hover:bg-gray-50 focus:outline-none focus:ring dark:hover:bg-gray-800 focus:ring-gray-300 focus:ring-opacity-40">
+                            <svg class="w-5 h-5 mx-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C21.9939 17.5203 17.5203 21.9939 12 22ZM4 12.172C4.04732 16.5732 7.64111 20.1095 12.0425 20.086C16.444 20.0622 19.9995 16.4875 19.9995 12.086C19.9995 7.68451 16.444 4.10977 12.0425 4.086C7.64111 4.06246 4.04732 7.59876 4 12V12.172ZM10 16.5V7.5L16 12L10 16.5Z" fill="currentColor"></path></svg>
+                            <span class="mx-1 ">Partidos en vivo</span>
+                        </button>
+                        {% if user.is_authenticated %}
+                            <button onclick="location.href='{% url 'logout' %}'" class="w-full px-5 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-indigo-600 rounded-md sm:mx-2 sm:order-2 sm:w-auto hover:bg-black-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">Cerrar Sesión</button>
+                        {% else %}
+                            <button onclick="location.href='{% url 'login' %}'" class="w-full px-5 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-indigo-600 rounded-md sm:mx-2 sm:order-2 sm:w-auto hover:bg-black-600 focus:outline-none focus:ring focus:ring-black-300 focus:ring-opacity-80">Iniciar Sesión</button>
+                        {% endif %}
+                    </div>
+                </div>
+                <hr class="my-10 border-gray-200 dark:border-gray-700" />
+                <div class=" flex flex-col items-center text-center sm:flex-row sm:justify-center">
+                    <p class="text-sm text-black mr-4 ">© Copyright 2023. All Rights Reserved.</p>
+                    <div class="roboto-mono flex mt-3 -mx-2 sm:mt-0">
+                        <a href="#" class="mx-2 text-sm text-black transition-colors duration-300 hover:text-gray-500 dark:hover:text-gray-300" aria-label="Reddit"> Terminos </a>
+                        <a href="#" class="mx-2 text-sm text-black transition-colors duration-300 hover:text-gray-500 dark:hover:text-gray-300" aria-label="Reddit"> Privacidad </a>
+                        <a href="https://www.linkedin.com/in/facundohansen/" class="mx-2 text-sm text-black transition-colors duration-300 hover:text-gray-500 dark:hover:text-gray-300" aria-label="Reddit"> Dev/FacundoHansen </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+    </body>
+</html>

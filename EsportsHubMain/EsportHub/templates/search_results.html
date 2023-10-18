@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados de la búsqueda{% endblock %}
+
+{% block content %}
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl mb-4">Resultados de la búsqueda</h1>
+
+    <form method="get" action="{% url 'search_team' %}" class="mb-6 flex">
+        <input type="text" name="query" value="{{ query }}" class="border p-2 flex-grow" placeholder="Buscar equipo por nombre o ID">
+        <input type="submit" value="Buscar" class="bg-blue-500 text-white p-2 ml-2">
+    </form>
+
+    <table class="min-w-full bg-white border border-gray-30 text-black">
+        <thead>
+            <tr>
+                <th class="py-2 px-4 border-b">ID</th>
+                <th class="py-2 px-4 border-b">Nombre</th>
+                <th class="py-2 px-4 border-b">Acronym</th>
+                <th class="py-2 px-4 border-b">Ubicación</th>
+                <th class="py-2 px-4 border-b">Videojuego</th>
+                <th class="py-2 px-4 border-b">Detalles</th>
+                <th class="py-2 px-4 border-b">Seguir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+                <tr>
+                    <td class="py-2 px-4 border-b">{{ team.id }}</td>
+                    <td class="py-2 px-4 border-b">{{ team.name }}</td>
+                    <td class="py-2 px-4 border-b">{{ team.acronym }}</td>
+                    <td class="py-2 px-4 border-b">{{ team.location }}</td>
+                    <td class="py-2 px-4 border-b">{{ team.current_videogame.name }}</td>
+                    <td class="py-2 px-4 border-b">
+                        <a href="{% url 'get_team' team.id %}" class="text-blue-500 hover:underline">Ver detalles</a>
+                    </td>
+                    <td class="py-2 px-4 border-b">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'follow_team' team.id %}" class="text-blue-500 hover:underline">Seguir</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Detalles del Equipo{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center h-screen">
+    <div class="relative flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+        <div class="relative mx-4 mt-4 h-96 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
+            <img src="{{ team.image_url }}" alt="Logo del equipo">
+        </div>
+        <div class="p-6">
+            <div class="mb-2 flex items-center justify-between">
+                <p class="block  text-base  text-4xl leading-relaxed text-black antialiased">
+                    {{team.name}}
+                </p>
+                <p class="block  text-base  text-4xl leading-relaxed text-black antialiased">
+                    {{team.acronym}}
+                </p>
+                
+            </div>
+            <p class="block  text-base  text-xl leading-relaxed text-black antialiased">
+                <text class="font-sans">Videojuego:</text> {{team.current_videogame.name}}
+            </p>
+            <p class="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased opacity-75">
+                <!-- Descripción del equipo -->
+            </p>
+        </div>
+        <div class="p-6 pt-0">                 
+            {% if user.is_authenticated %}
+                {% if is_following %}
+                    <button onclick="location.href='{% url 'unfollow_team' team.id %}'"
+                        class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                        type="button">
+                        Dejar de seguir
+                        </button>
+                    {% else %}
+                    <button onclick="location.href='{% url 'follow_team' team.id %}'"
+                    class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                    type="button">
+                        Seguir
+                    </button>
+                {% endif %}
+            {% endif %}
+            <button onclick="location.href='{% url 'get_team_matches' team.id %}'"
+                    class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                    type="button">
+                Historial
+            </button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

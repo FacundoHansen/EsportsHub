@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="relative flex flex-col min-h-screen items-center justify-center overflow-y-auto">
+  
+  <div class="absolute inset-0 bg-no-repeat bg-cover bg-center filter blur-sm z-[-1]" style="background-image: url('{% static 'worlds.png' %}');"></div>
+  
+  
+  <div class="z-10 xs:p-0 mx-auto md:w-full md:max-w-md">
+    <h1 class="font-bold text-center text-2xl mb-5 text-white">Iniciar Sesion</h1>  
+    <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
+      <div class="px-5 py-7">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-5">
+            <label class="font-semibold text-left text-xl text-black pb-1 block">Nombre de usuario : </label>
+            <input type="text" class="border-2 border-indigo-600 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-black" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" />
+          </div>
+          <div class="mb-5">
+            <label class="font-semibold text-left text-xl text-black pb-1 block">Contraseña : </label>
+            <input type="password" class="border-2 border-indigo-600 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-black" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}" />
+          </div>
+          <button type="submit" class="transition duration-200 bg-indigo-600 hover:bg-indigo-600 focus:bg-indigo-600 focus:shadow-sm focus:ring-4 focus:ring-indigo-600 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+            <span class="inline-block mr-2">Iniciar Sesión</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </button>
+          
+            <p class="text-black text-left "><a class="font-sans">¿No tienes una cuenta?</a> <a href="{% url 'register' %}">Registrarse</a></p>
+            <p class="text-black text-left "><a class="font-sans">¿Olvidaste tu contraseña? </a> <a href="{% url 'password_reset' %}">Recuperar contraseña</a></p>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

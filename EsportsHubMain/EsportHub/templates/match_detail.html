@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Detalles del Partido{% endblock %}
+
+<style>
+    .stream-embed {
+        margin: 20px 0;
+        position: relative;
+        padding-bottom: 56.25%; /* Proporción 16:9 */
+        height: 0;
+        overflow: hidden;
+    }
+
+    .stream-embed iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+{% block content %}
+<section class="mb-16 antialiased bg-gray pt-20 text-black h-auto px-4 w-full max-w-screen-xl mx-auto">
+    <div class="flex flex-col h-full">
+        <div class="bg-white rounded-t-lg border-4 border-indigo-600">
+            <header class="p-5 border-b border-gray-100">
+                <h1 class="font-semibold text-black text-5xl">{{ match.name }}</h1>
+            </header>
+            <div class="p-3">
+                <!-- Tarjetas de equipos y VS -->
+                <div class="flex justify-center items-stretch mb-6"> 
+                    <!-- Tarjeta para Equipo 1 -->
+                    <div class="flex flex-col w-64 rounded-xl bg-clip-border text-black shadow-md 
+                    {% if match.winner.id == match.opponents.0.opponent.id %}bg-green-500{% else %}bg-red-500{% endif %}">
+                        <div class="flex-1 relative mx-4 mt-4 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
+                            <img src="{{ match.opponents.0.opponent.image_url }}" alt="Logo del equipo" class="object-cover h-full w-full">
+                        </div>
+                        <div class="flex-none p-6">
+                            <div class="mb-2 flex items-center justify-between">
+                                <p class="block font-sans text-xl font-medium leading-relaxed text-blue-gray-900 antialiased">
+                                    {{ match.opponents.0.opponent.name }}
+                                </p>
+                                <p class="block font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased">
+                                    {{ match.videogame.name }}
+                                </p>
+                            </div>
+                            {% if user.is_authenticated %}
+                                {% if is_following_team1 %}
+                                    <button onclick="location.href='{% url 'unfollow_team' match.opponents.0.opponent.id %}'"
+                                    class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                                    type="button">
+                                    Dejar de seguir
+                                    </button>
+                                {% else %}
+                                <button onclick="location.href='{% url 'follow_team' match.opponents.0.opponent.id %}'"
+                                class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                                type="button">
+                                    Seguir
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                            <button onclick="location.href='{% url 'get_team' match.opponents.0.opponent.id %}'"
+                                    class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                                    type="button">
+                                Ver equipo
+                            </button>
+                            
+                        </div>
+                    </div>
+                    <!-- VS -->
+                    <div class="flex  items-center ">
+                        <span class="mx-4 text-9xl font-semibold">VS</span>
+                      </div>
+                      
+                    <!-- Tarjeta para Equipo 2 -->
+                    <div class="flex flex-col w-64 rounded-xl bg-clip-border text-black shadow-md 
+                    {% if match.winner.id == match.opponents.1.opponent.id %}bg-green-500{% else %}bg-red-500{% endif %}">
+                        <div class="flex-1 relative mx-4 mt-4 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
+                            <img src="{{ match.opponents.1.opponent.image_url }}" alt="Logo del equipo" class="object-cover h-full w-full">
+                        </div>
+                        <div class="flex-none p-6">
+                            <div class="mb-2 flex items-center justify-between">
+                                <p class="block font-sans text-xl font-medium leading-relaxed text-blue-gray-900 antialiased">
+                                    {{ match.opponents.1.opponent.name }}
+                                </p>
+                                <p class="block font-sans text-base font-medium leading-relaxed text-blue-gray-900 antialiased">
+                                    {{ match.videogame.name }}
+                                </p>
+                            </div>
+                            {% if user.is_authenticated %}
+                                {% if is_following_team2 %}
+                                    <button onclick="location.href='{% url 'unfollow_team' match.opponents.1.opponent.id %}'"
+                                    class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                                    type="button">
+                                    Dejar de seguir
+                                    </button>
+                                {% else %}
+                                <button onclick="location.href='{% url 'follow_team' match.opponents.1.opponent.id %}'"
+                                class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                                type="button">
+                                    Seguir
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                            <button onclick="location.href='{% url 'get_team' match.opponents.1.opponent.id %}'"
+                                    class=" w-full text-center font-sans text-xs text-white bg-black hover:bg-black/90 focus:ring-4 focus:outline-none focus:ring-black/50 font-medium rounded-lg text-sm px-5 py-2.5  dark:focus:ring-black/50 dark:hover:bg-black/30 mr-2 mb-2"
+                                    type="button">
+                                Ver equipo
+                            </button>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- Resto del contenido -->
+                <p> <text class="text-2xl">ID:</text><text class="roboto-mono"> {{ match.id }}</text></p>
+                <p><strong>Nombre:</strong> {{ match.name }}</p>
+                <p><strong>Videojuego:</strong> {{ match.videogame.name }}</p>
+                <p><strong>Estado:</strong> {{ match.status }}</p>
+                
+                {% if match.winner %}
+                    <p><strong>Ganador:</strong> {{ match.winner.name }}</p>
+                    <div class="flex items-center">
+                    </div>
+                {% else %}
+                    <p><strong>Ganador:</strong> Aún no determinado</p>
+                {% endif %}
+                <p><strong>Fecha de inicio:</strong> {{ match.begin_at }}</p>
+                <p><strong>Fecha de fin:</strong> {{ match.end_at }}</p>
+                {% if match.streams_list %}
+                    <h2 class="font-semibold text-black text-3xl mt-5">Transmisión en Vivo</h2>
+                    {% for stream in match.streams_list %}
+                        <div class="stream-embed">
+                            <iframe src="{{ stream.embed_url }}" width="800" height="450" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <p><a href="{{ stream.raw_url }}" target="_blank" class="text-indigo-600 hover:underline">Ver directamente en {{ stream.raw_url }}</a></p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

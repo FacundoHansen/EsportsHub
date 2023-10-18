@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Resultados de la búsqueda de Torneos{% endblock %}
+
+{% block content %}
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl mb-4">Resultados de la búsqueda para "{{ query }}"</h1>
+
+    <form method="get" action="{% url 'search_tournament' %}" class="mb-6 flex">
+        <input type="text" name="query" value="{{ query }}" class="border p-2 flex-grow text-black" placeholder="Buscar torneo por nombre o ID">
+        <input type="submit" value="Buscar" class="bg-indigo-600 text-white p-2 ml-2">
+    </form>
+
+    {% if tournaments %}
+        <table class="min-w-full bg-white border border-gray-30 text-black">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b text-left">ID</th>
+                    <th class="py-2 px-4 border-b text-left">Nombre</th>
+                    <th class="py-2 px-4 border-b text-left">Juego</th>
+                    <th class="py-2 px-4 border-b text-left">Fecha de inicio</th>
+                    <th class="py-2 px-4 border-b text-left">Fecha de finalización</th>
+                    
+                    <th class="py-2 px-4 border-b text-left">Equipo Ganador</th>
+                    <th class="py-2 px-4 border-b text-left">Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="py-2 px-4 border-b text-left">{{ tournaments.id }}</td>
+                    <td class="py-2 px-4 border-b text-left">{{ tournaments.name }}</td>
+                    <td class="py-2 px-4 border-b text-left">{{ tournaments.videogame.name }}</td>
+                    <td class="py-2 px-4 border-b text-left">{{ tournaments.begin_at }}</td>
+                    <td class="py-2 px-4 border-b text-left">{{ tournaments.end_at }}</td>
+                    
+                    <td class="py-2 px-4 border-b text-left">{{ tournaments.winner_id }}</td>
+                    <td class="py-2 px-4 border-b text-left">
+                        <a href="">Ver Detalles</a> 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    {% else %}
+        <p>No se encontraron torneos que coincidan con tu búsqueda.</p>
+    {% endif %}
+  </div>
+{% endblock %}

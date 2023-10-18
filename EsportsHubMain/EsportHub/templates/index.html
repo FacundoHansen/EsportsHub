@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<div class="relative flex flex-col min-h-screen items-center justify-center overflow-y-auto">
+  <!-- Fondo con desenfoque -->
+  <div class="absolute inset-0 bg-no-repeat bg-cover bg-center filter blur-sm z-[-1]" style="background-image: url('{% static 'worlds.png' %}');"></div>
+  
+
+</div>
+{% endblock %}
+  <!-- Contenido
+  <section class="antialiased pt-20 h-auto px-4 z-10">
+    <div class="flex flex-col items-center">
+      <div class="bg-black p-5 rounded-lg shadow-lg">
+        <h1 class="text-indigo-600 text-6xl font-bold">Bienvenido</h1>
+      </div>
+      <div class="mt-5">
+        <a href="{% url 'enviar_correo_prueba' %}" class="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700">Enviar Correo de Prueba</a>
+        <a href="{% url 'enviar_notificaciones_manual' %}" class="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 ml-4">Enviar Correo cron de prueba</a>
+      </div>
+    </div>
+  </section>
+   -->

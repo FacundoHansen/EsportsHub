@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="relative flex flex-col min-h-screen items-center justify-center overflow-y-auto">
+  
+  <div class="absolute inset-0 bg-no-repeat bg-cover bg-center filter blur-sm z-[-1]" style="background-image: url('{% static 'worlds.png' %}');"></div>
+  
+  <div class="z-10 xs:p-0 mx-auto md:w-full md:max-w-md">
+    <h1 class="font-bold text-center text-2xl mb-5 text-white">Editar Perfil</h1>  
+    <div class="bg-white shadow w-full rounded-lg divide-y divide-gray-200">
+      <div class="px-5 py-7">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-5">
+            <label class="font-semibold text-left text-xl text-black pb-1 block">Nombre de usuario:</label>
+            <input type="text" class="border-2 border-indigo-600 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-black" name="{{ user_form.username.name }}" id="{{ user_form.username.id_for_label }}" value="{{ user_form.username.value }}" />
+          </div>
+          <div class="mb-5">
+            <label class="font-semibold text-left text-xl text-black pb-1 block">Correo Electrónico:</label>
+            <input type="email" class="border-2 border-indigo-600 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-black" name="{{ user_form.email.name }}" id="{{ user_form.email.id_for_label }}" value="{{ user_form.email.value }}" />
+          </div>
+          <div class="mb-5">
+            <label class="font-semibold text-left text-xl text-black pb-1 block">Nombre:</label>
+            <input type="text" class="border-2 border-indigo-600 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-black" name="{{ user_form.first_name.name }}" id="{{ user_form.first_name.id_for_label }}" value="{{ user_form.first_name.value }}" />
+          </div>
+          <div class="mb-5">
+            <label class="font-semibold text-left text-xl text-black pb-1 block">Apellido:</label>
+            <input type="text" class="border-2 border-indigo-600 rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full text-black" name="{{ user_form.last_name.name }}" id="{{ user_form.last_name.id_for_label }}" value="{{ user_form.last_name.value }}" />
+          </div>
+          <button type="submit" class="mb-2 transition duration-200 bg-indigo-600 hover:bg-indigo-600 focus:bg-indigo-600 focus:shadow-sm focus:ring-4 focus:ring-indigo-600 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+            <span class="inline-block mr-2">Guardar Cambios</span>
+          </button>
+          <button onclick="window.history.back();" class="transition duration-200 bg-gray-400 hover:bg-gray-500 focus:bg-gray-500 focus:shadow-sm focus:ring-4 focus:ring-gray-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+            <span class="inline-block mr-2">Volver</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

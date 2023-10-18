@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Partidos Ahora{% endblock %}
+
+{% block content %}
+<section class="antialiased bg-gray pt-20 text-black h-auto px-4 w-full max-w-screen-xl mx-auto">
+    <div class="flex flex-col h-full">
+        <div class="bg-white rounded-t-lg border-4 border-indigo-600">
+            <header class="p-5 border-b border-gray-100">
+                <h1 class="font-semibold text-black text-5xl">Partidos Ahora</h1>
+            </header>
+            <div class="p-3">
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full">
+                        <thead class="font-semibold uppercase text-black bg-indigo-600">
+                            <tr>
+                                <th class="p-2 whitespace-nowrap text-left">ID</th>
+                                <th class="p-2 whitespace-nowrap text-left">Videojuego</th>
+                                <th class="p-2 whitespace-nowrap text-left">Torneo</th>
+                                
+                                <th class="p-2 whitespace-nowrap text-left">Equipo 1</th>
+                                <th class="p-2 whitespace-nowrap text-left">Equipo 2</th>
+                                <th class="p-2 whitespace-nowrap text-left">Estado</th>
+                                <th class="p-2 whitespace-nowrap text-left">Transmisión</th>
+                                <th class="p-2 whitespace-nowrap text-left">Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100">
+                            {% if matches %}
+                                {% for match in matches %}
+                                    <tr>
+                                        <td class="p-2 whitespace-nowrap">{{ match.id }}</td>
+                                        <td class="p-2 whitespace-nowrap">{{ match.videogame.name }}</td>
+                                        <td class="p-2 whitespace-nowrap">{{ match.league.name }}</td>
+                                        
+                                        <td class="p-2 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                                                    <img class="rounded-full" src="{{ match.opponents.0.opponent.image_url }}" width="40" height="40" alt="{{team.name}}">
+                                                </div>
+                                                <span>{{ match.opponents.0.opponent.name }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-2 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                                                    <img class="rounded-full" src="{{ match.opponents.1.opponent.image_url }}" width="40" height="40" alt="{{team.name}}">
+                                                </div>
+                                                <span>{{ match.opponents.1.opponent.name }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-2 whitespace-nowrap">{{ match.status }}</td>
+                                        <td class="p-2 whitespace-nowrap">
+                                            {% if match.streams_list %}
+                                                <a href="{{ match.streams_list.0.raw_url }}" target="_blank">Ver Transmisión</a>
+                                            {% else %}
+                                                No disponible
+                                            {% endif %}
+                                        </td>
+                                        <td class="p-2 whitespace-nowrap">
+                                            <a href="{% url 'get_match' match.id %}">Ver detalles</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="10" class="p-2 text-center">No hay partidos programados para hoy.</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

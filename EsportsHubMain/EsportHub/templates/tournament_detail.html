@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="mb-16 antialiased bg-gray pt-20 text-black h-auto px-4 w-full  max-w-screen-xl mx-auto">
+    <div class="flex flex-col h-full">
+        <div class="bg-white rounded-t-lg border-4 border-indigo-600">
+            <header class="p-5 border-b border-gray-100">
+                <h2 class="font-semibold text-black text-5xl">Detalles del Torneo: {{ tournament.name }}</h2>
+            </header>
+            <div class="p-3">
+                <div class="overflow-x-auto">
+                    <table class="table-auto w-full">
+                        <thead class="font-semibold uppercase text-black bg-indigo-600">
+                            <tr>
+                                <th class="p-2 whitespace-nowrap">ID</th>
+                                <th class="p-2 whitespace-nowrap">Nombre del Partido</th>
+                                
+                                <th class="p-2 whitespace-nowrap">Fecha</th>
+                                <th class="p-2 whitespace-nowrap">Hora</th>
+                                <th class="p-2 whitespace-nowrap">Estado</th>
+                                <th class="p-2 whitespace-nowrap">Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100">
+                            {% for match in tournament.matches %}
+                            <tr>
+                                <td class="p-2 whitespace-nowrap">{{ match.id }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ match.name }}</td>
+                                
+                                <td class="p-2 whitespace-nowrap">{{ match.begin_at_date }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ match.begin_at_time }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ match.status }}</td>
+                                <td class="p-2 whitespace-nowrap">
+                                    {% if match.streams_list %}
+                                        <a href="{% url 'get_match' match.id %}">Ver detalles</a>
+                                    {% else %}
+                                    No disponible
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
